@@ -1,0 +1,15 @@
+sudo apt-get install rng-tools
+sudo rngd -r /dev/urandom
+gpg --gen-key
+gpg --export --armor {id of the key} > /home/shuhari/pubkey
+gpg --export-secret-keys --armor {id of the key} > /home/shuhari/privatekey
+scp pubkey shuhari@192.168.32.102:/home/shuhari/
+on machine 2
+gpg --import pubkey
+gpg --list-key
+echo "hello" > file 
+gpg --output newfile --armor --recipient {id of the key} --encrypt file
+scp new file name shuhari@192.168.32.182:/home/shuhari
+on machine1
+gpg --output anothernewfile --decrypt newfile 
+cat anothernewfile
